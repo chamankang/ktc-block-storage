@@ -1,0 +1,17 @@
+#!/bin/bash
+
+crm configure delete c-$1
+crm configure delete o1-$1
+
+crm resource cleanup grp-$1
+crm resource cleanup lun-$1
+crm resource cleanup tgt-$1
+
+crm resource stop lun-$1
+crm resource stop tgt-$1
+
+sleep 3
+
+crm configure delete lun-$1
+crm configure delete tgt-$1
+
