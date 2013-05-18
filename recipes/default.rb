@@ -19,7 +19,7 @@
 #
 include_recipe "cinder::cinder-volume"
 
-cookbook_file "/usr/sbin/crm_register" do
+cookbook_file node['cinder']['services']['volume']['register_script'] do
   source "crm_register"
   owner "root"
   group "root"
@@ -27,7 +27,7 @@ cookbook_file "/usr/sbin/crm_register" do
   action :create_if_missing
 end
 
-cookbook_file "/usr/sbin/crm_delete" do
+cookbook_file node['cinder']['services']['volume']['delete_script'] do
   source "crm_delete"
   owner "root"
   group "root"
@@ -42,17 +42,7 @@ cookbook_file "/etc/cinder/rootwrap.d/volume.filters" do
   group "root"
   mode 0755
   action :nothing
-end
-
-ruby_block "backup cinder-volume iscsi.py" do
-  block do
-      original_pathname = "/usr/share/pyshared/cinder/volume/iscsi.py"
-      backup_pathname = original_pathname + ".old"
-      FileUtils.cp(original_pathname, backup_pathname, :preserve => true)
-  end
-  action :create
   notifies :create, "cookbook_file[/usr/share/pyshared/cinder/volume/iscsi.py]", :immediately
-  not_if "test -f /usr/share/pyshared/cinder/volume/iscsi.py.old"
 end
 
 cookbook_file "/usr/share/pyshared/cinder/volume/iscsi.py" do
