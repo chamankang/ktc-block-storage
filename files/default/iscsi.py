@@ -137,7 +137,7 @@ class TgtAdm(TargetAdmin):
         LOG.info(_('Removing volume: %s') % vol_id)
         vol_uuid_file = 'volume-%s' % vol_id
 
-        iqn = '%s%s' % (FLAGS.iscsi_target_prefix, vol_id)
+        iqn = '%s%s' % (FLAGS.iscsi_target_prefix, vol_uuid_file)
 
         (out, err) = self._execute('tgt-admin', '--show', run_as_root=True)
         lines = out.split('\n')
