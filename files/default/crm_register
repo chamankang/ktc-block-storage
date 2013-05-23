@@ -1,6 +1,12 @@
 #!/bin/bash
+volumes=$(crm resource show | grep grp-$1)
+
+if [[ -n $volumes ]]; then
+        exit 0
+fi
+
 crm configure primitive tgt-$1 ocf:heartbeat:iSCSITarget params iqn="$2" tid="$3" op monitor interval="10s" timeout="20s"
 crm configure primitive lun-$1 ocf:heartbeat:iSCSILogicalUnit params target_iqn="$2" lun="1" path="/dev/cinder-volumes/$1" op monitor interval="10s" timeout="20s"
 crm configure group grp-$1 tgt-$1 lun-$1
 crm configure colocation c-$1 inf: grp-$1 vip
-crm configure order o1-$1 inf: vip tgt-$1 lun-$1 cinder-volume
+crm configure order o1-$1 inf: vip tgt-$1 lun-$1
