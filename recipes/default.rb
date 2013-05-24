@@ -33,11 +33,11 @@ cookbook_file node['cinder']['services']['volume']['delete_script'] do
   group "root"
   mode 0755
   action :create_if_missing
-  notifies :create, "cookbook_file[/etc/cinder/rootwrap.d/volume.filters]", :immediately
+  notifies :create, "template[/etc/cinder/rootwrap.d/volume.filters]", :immediately
 end
 
-cookbook_file "/etc/cinder/rootwrap.d/volume.filters" do
-  source "volume_filters"
+template "/etc/cinder/rootwrap.d/volume.filters" do
+  source "volume_filters.erb"
   owner "root"
   group "root"
   mode 0755
@@ -60,8 +60,10 @@ ruby_block 'add-host-myip-to-cinder-volume' do
     host_line = "host = #{node['cinder']['services']['volume']['host']}"
 
     conf_file = Chef::Util::FileEdit.new "/etc/cinder/cinder.conf"
-    conf_file.insert_line_after_match(/iscsi_ip_address/, myip_line)
-    conf_file.insert_line_after_match(/iscsi_ip_address/, host_line)
+    conf_file.insert_line_if_no_match(/^myip/, myip_line)
+    conf_file.write_file
+    conf_file.insert_line_if_no_match(/^host/, host_line)
+    conf_file.write_file
   
     system('touch /var/lock/.cinder_conf_edit_done')
   end
