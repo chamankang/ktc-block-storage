@@ -7,8 +7,7 @@ ietadm: CommandFilter, /usr/sbin/ietadm, root
 tgtadm: CommandFilter, /usr/sbin/tgtadm, root
 tgt-admin: CommandFilter, /usr/sbin/tgt-admin, root
 cinder-rtstool: CommandFilter, cinder-rtstool, root
-crm_register: CommandFilter, <%= node['cinder']['services']['volume']['register_script'] %>, root
-crm_delete: CommandFilter, <%= node['cinder']['services']['volume']['delete_script'] %>, root
+crm: CommandFilter, <%= node['cinder']['services']['volume']['crm_cmd'] %>, root
 
 # cinder/volume/driver.py: 'vgs', '--noheadings', '-o', 'name'
 vgs: CommandFilter, /sbin/vgs, root

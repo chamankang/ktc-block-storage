@@ -142,7 +142,18 @@ class TgtAdm(TargetAdmin):
             if matches is not None:
                 return tid
 
-        self._execute('crm_register', vol_id, iqn, tid, run_as_root=True)
+        self._execute('crm', 'configure', 'primitive', 'tgt-'+vol_id, 'ocf:heartbeat:iSCSITarget', 'params', 'iqn='+iqn, 'tid='+str(tid), 'op', 'monitor', 'interval="10s"', 'timeout
+="20s"', run_as_root=True)
+        self._execute('crm', 'configure', 'colocation', 'c-tgt-'+vol_id, 'inf:', 'tgt-'+vol_id, 'vip', run_as_root=True)
+
+        self._execute('crm', 'configure', 'primitive', 'lun-'+vol_id, 'ocf:heartbeat:iSCSILogicalUnit', 'params', 'target_iqn='+iqn, 'lun="1"', 'path="/dev/cinder-volumes/'+vol_id+'
+"', 'op', 'monitor', 'interval="10s"', 'timeout="20s"', run_as_root=True)
+        self._execute('crm', 'configure', 'colocation', 'c-lun-'+vol_id, 'inf:', 'lun-'+vol_id, 'tgt-'+vol_id, run_as_root=True)
+
+        self._execute('crm', 'configure', 'group', 'grp-'+vol_id, 'tgt-'+vol_id, 'lun-'+vol_id, run_as_root=True)
+        self._execute('crm', 'configure', 'order', 'o1-'+vol_id, 'inf:', 'vip', 'tgt-'+vol_id, 'lun-'+vol_id, run_as_root=True)
+        self._execute('crm', 'resource', 'cleanup', 'lun-'+vol_id, run_as_root=True)
+
         return tid
 
 
@@ -158,7 +169,18 @@ class TgtAdm(TargetAdmin):
         for line in lines:
             matches = re.match('Target ([0-9]+): ' + iqn, line)
             if matches is not None:
-                self._execute('crm_delete', vol_uuid_file, run_as_root=True)
+                self._execute('crm', 'resource', 'stop', 'lun-'+vol_uuid_file, run_as_root=True)
+                self._execute('crm', 'resource', 'stop', 'tgt-'+vol_uuid_file, run_as_root=True)
+
+                self._execute('crm', 'configure', 'delete', 'c-tgt-'+vol_uuid_file, run_as_root=True)
+                self._execute('crm', 'configure', 'delete', 'o1-'+vol_uuid_file, run_as_root=True)
+                self._execute('crm', 'resource', 'cleanup', 'grp-'+vol_uuid_file, run_as_root=True)
+
+                time.sleep(2)
+
+                self._execute('crm', 'configure', 'delete', 'lun-'+vol_uuid_file, run_as_root=True)
+                self._execute('crm', 'configure', 'delete', 'tgt-'+vol_uuid_file, run_as_root=True)
+
                 return
 
     def show_target(self, tid, iqn=None, **kwargs):
