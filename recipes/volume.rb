@@ -42,17 +42,20 @@ glance_info = get_access_endpoint("glance", "glance", "api")
 ruby_block 'add-host-myip-to-cinder-conf' do
   block do
     myip_line = "myip = #{node['cinder']['services']['volume']['myip']}"
+    iscsi_line = "iscsi_ip_address = #{node['cinder']['services']['volume']['myip']}"
     host_line = "host = #{node['cinder']['services']['volume']['host']}"
     glance_host_line = "glance_host = #{glance_info["host"]}"
     glance_port_line = "glance_port = #{glance_info["port"]}"
 
     conf_file = Chef::Util::FileEdit.new("/etc/cinder/cinder.conf")
+    conf_file.search_file_delete_line(/iscsi_ip_address.*/)
+    conf_file.insert_line_after_match(/rabbit_port.*/, myip_line)
+    conf_file.insert_line_after_match(/rabbit_port.*/, iscsi_line)
+    conf_file.insert_line_after_match(/rabbit_port.*/, host_line)
     conf_file.insert_line_after_match(/rabbit_port.*/, glance_port_line)
     conf_file.insert_line_after_match(/rabbit_port.*/, glance_host_line)
-    conf_file.insert_line_after_match(/iscsi_ip_address.*/, myip_line)
-    conf_file.insert_line_after_match(/iscsi_ip_address.*/, host_line)
     conf_file.write_file
-  
+
     system('touch /var/lock/.cinder_conf_myip_add_done')
   end
   action :nothing
