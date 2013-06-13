@@ -20,18 +20,3 @@
 file "/etc/rsyslog.d/24-cinder.conf" do
   action :delete
 end
-
-
-template "/etc/rsyslog.d/95-cinder.conf" do
-    source "95-cinder.conf.erb"
-    owner "root"
-    group "root"
-    mode "0644"
-    variables(
-        "use_syslog" => node["cinder"]["syslog"]["use"],
-        "log_facility" => node["cinder"]["syslog"]["config_facility"]
-    )
-    only_if { node["cinder"]["syslog"]["use"] }
-    notifies :restart, "service[rsyslog]", :delayed
-end
-
