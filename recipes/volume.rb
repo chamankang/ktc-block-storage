@@ -24,7 +24,7 @@ cookbook_file node['cinder']['services']['volume']['collect_tids_cmd'] do
   owner "root"
   group "root"
   mode 0755
-  action :create_if_missing
+  action :create
 end
 
 template "/etc/cinder/rootwrap.d/volume.filters" do
