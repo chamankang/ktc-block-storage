@@ -21,6 +21,7 @@ Helper code for the iSCSI volume driver.
 """
 import os
 import re
+import time
 
 from oslo.config import cfg
 
