@@ -21,6 +21,7 @@ Helper code for the iSCSI volume driver.
 """
 import os
 import re
+import time
 
 from oslo.config import cfg
 
@@ -121,6 +122,7 @@ class TgtAdm(TargetAdmin):
 
     def create_iscsi_target(self, name, tid, lun, path,
                             chap_auth=None, **kwargs):
+        LOG.debug(_("Entering create_iscsi_target..."))
         # Note(jdg) tid and lun aren't used by TgtAdm but remain for
         # compatibility
         utils.ensure_tree(FLAGS.volumes_dir)
@@ -129,22 +131,39 @@ class TgtAdm(TargetAdmin):
 
         iqn = '%s%s' % (FLAGS.iscsi_target_prefix, vol_id)
 
+        (tid_list, err) = self._execute('collect_tids', run_as_root=True)
+
+        tid_arr = tid_list.split('\n')
+        tid_arr.pop(-1)
+        tid_arr = map(int, tid_arr)
+        tid_arr.sort()
+        LOG.debug(_("TIDs in Pacemaker Conf: %s") % tid_arr)
+
         tid = 1
+
         (out, err) = self._execute('tgt-admin', '--show', run_as_root=True)
         lines = out.split('\n')
 
         for line in lines:
-            matches = re.match('Target ([0-9]+)', line)
-            if matches is not None:
-                if tid == int(matches.group(1)):
-                    tid += 1
             matches = re.match('Target ([0-9]+): ' + iqn, line)
-            if matches is not None:
-                return tid
+            if matches:
+                return int(matches.group(1))
+
+        if tid_arr:
+            for tid in range(1, tid_arr[-1]+2):
+                if tid not in tid_arr:
+                    break;
 
         (out, err) = self._execute('crm', 'resource', 'show', 'tgt-'+vol_id, check_exit_code=1, run_as_root=True)
         if err and 'not found' in err:
-                self._execute('crm', 'configure', 'primitive', 'tgt-'+vol_id, 'ocf:heartbeat:iSCSITarget', 'params', 'iqn='+iqn, 'tid='+str(tid), 'op', 'monitor', 'interval="10s"', 'timeout="20s"', run_as_root=True)
+                (out, err) = self._execute('crm', 'configure', 'primitive', 'tgt-'+vol_id, 'ocf:heartbeat:iSCSITarget', 'params', 'iqn='+iqn, 'tid='+str(tid), 'op', 'monitor', 'interval="10s"', 'timeout="20s"', run_as_root=True)
+                LOG.info(_("While configuring tgt-%s, Err: %s") % (vol_id, err))
+                if err and 'CIB' in err:
+                    LOG.info(_("CIB Error occured. Re-trying the command..."))
+                    time.sleep(0.5)
+                    (out, err) = self._execute('crm', 'configure', 'primitive', 'tgt-'+vol_id, 'ocf:heartbeat:iSCSITarget', 'params', 'iqn='+iqn, 'tid='+str(tid), 'op', 'monitor', 'interval="10s"', 'timeout="20s"', run_as_root=True)
+                    LOG.info(_("Re-tryed configuring tgt-%s, Err: %s") % (vol_id, err))
+
                 self._execute('crm', 'configure', 'colocation', 'c-tgt-'+vol_id, 'inf:', 'tgt-'+vol_id, 'vip', run_as_root=True)
         else:
                 LOG.info(_('tgt resource already registered. Skipping registration..'))
@@ -152,16 +171,21 @@ class TgtAdm(TargetAdmin):
 
         (out, err) = self._execute('crm', 'resource', 'show', 'lun-'+vol_id, check_exit_code=1, run_as_root=True)
         if err and 'not found' in err:
-                self._execute('crm', 'configure', 'primitive', 'lun-'+vol_id, 'ocf:heartbeat:iSCSILogicalUnit', 'params', 'target_iqn='+iqn, 'lun="1"', 'path="/dev/cinder-volumes/'+vol_id+'"', 'op', 'monitor', 'interval="10s"', 'timeout="20s"', run_as_root=True)
+                (out, err) = self._execute('crm', 'configure', 'primitive', 'lun-'+vol_id, 'ocf:heartbeat:iSCSILogicalUnit', 'params', 'target_iqn='+iqn, 'lun="1"', 'path="/dev/cinder-volumes/'+vol_id+'"', 'op', 'monitor', 'interval="10s"', 'timeout="20s"', run_as_root=True)
+                LOG.info(_("While configuring lun-%s, Err: %s") % (vol_id, err))
+
                 self._execute('crm', 'configure', 'colocation', 'c-lun-'+vol_id, 'inf:', 'lun-'+vol_id, 'tgt-'+vol_id, run_as_root=True)
         else:
                 LOG.info(_('lun resource already registered. Skipping registration..'))
 
         (out, err) = self._execute('crm', 'resource', 'show', 'grp-'+vol_id, check_exit_code=1, run_as_root=True)
         if err and 'not found' in err:
-                self._execute('crm', 'configure', 'group', 'grp-'+vol_id, 'tgt-'+vol_id, 'lun-'+vol_id, run_as_root=True)
-                self._execute('crm', 'configure', 'order', 'o1-'+vol_id, 'inf:', 'vip', 'tgt-'+vol_id, 'lun-'+vol_id, run_as_root=True)
+                self._execute('crm', 'configure', 'group', 'grp-'+vol_id, 'tgt-'+vol_id, 'lun-'+vol_id, check_exit_code=1, run_as_root=True)
+                self._execute('crm', 'configure', 'order', 'o1-'+vol_id, 'inf:', 'vip', 'tgt-'+vol_id, 'lun-'+vol_id, check_exit_code=1, run_as_root=True)
                 self._execute('crm', 'resource', 'cleanup', 'lun-'+vol_id, run_as_root=True)
+
+        else:
+                LOG.info(_('group resource already registered. Skipping registration..'))
 
         return tid
 
@@ -176,22 +200,38 @@ class TgtAdm(TargetAdmin):
 
         for line in lines:
             matches = re.match('Target ([0-9]+): ' + iqn, line)
-            if matches is not None:
-                LOG.info(_('Found tgt target! Executing pacemaker commands!') )
+            if matches:
+                LOG.info(_('Found tgt target %s. Removing the target!') % iqn)
 
-                self._execute('crm', 'resource', 'stop', 'lun-'+vol_uuid_file, run_as_root=True)
-                self._execute('crm', 'resource', 'stop', 'tgt-'+vol_uuid_file, run_as_root=True)
+                (out, err) = self._execute('crm', 'resource', 'stop', 'lun-'+vol_uuid_file, run_as_root=True)
+                LOG.info(_("While stopping lun-%s, Err: %s") % (vol_uuid_file, err))
 
-                self._execute('crm', 'configure', 'delete', 'c-tgt-'+vol_uuid_file, run_as_root=True)
-                self._execute('crm', 'configure', 'delete', 'o1-'+vol_uuid_file, run_as_root=True)
-                self._execute('crm', 'resource', 'cleanup', 'grp-'+vol_uuid_file, run_as_root=True)
+                (out, err) = self._execute('crm', 'resource', 'stop', 'tgt-'+vol_uuid_file, run_as_root=True)
+                LOG.info(_("While stopping tgt-%s, Err: %s") % (vol_uuid_file, err))
 
-                time.sleep(2)
+                (out, err) = self._execute('crm', 'configure', 'delete', 'c-tgt-'+vol_uuid_file, run_as_root=True)
+                LOG.info(_("While deleting c-tgt-%s, Err: %s") % (vol_uuid_file, err))
 
-                self._execute('crm', 'configure', 'delete', 'lun-'+vol_uuid_file, run_as_root=True)
-                self._execute('crm', 'configure', 'delete', 'tgt-'+vol_uuid_file, run_as_root=True)
+                (out, err) = self._execute('crm', 'configure', 'delete', 'o1-'+vol_uuid_file, run_as_root=True)
+                LOG.info(_("while deleting o1-%s, Err: %s") % (vol_uuid_file, err))
+
+                time.sleep(3)
+
+                (out, err) = self._execute('crm', 'configure', 'delete', 'lun-'+vol_uuid_file, run_as_root=True)
+                LOG.info(_("Deleting lun-%s. Err: %s") % (vol_uuid_file, err))
+
+                (out, err) = self._execute('crm', 'configure', 'delete', 'tgt-'+vol_uuid_file, run_as_root=True)
+                LOG.info(_("Deleting tgt-%s. Err: %s") % (vol_uuid_file, err))
+
+                #(out, err) = self._execute('tgt-admin', '--show', run_as_root=True)
+                #LOG.info(_("TGTS:\n%s") % out)
+
+                #(out, err) = self._execute('lvs', run_as_root=True)
+                #LOG.info(_("LVS:\n%s") % out)
 
                 return
+
+        LOG.error(_("Found no matches.."))
 
     def show_target(self, tid, iqn=None, **kwargs):
         if iqn is None:

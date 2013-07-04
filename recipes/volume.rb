@@ -19,6 +19,14 @@
 #
 include_recipe "cinder::cinder-volume"
 
+cookbook_file node['cinder']['services']['volume']['collect_tids_cmd'] do
+  source "collect_tids"
+  owner "root"
+  group "root"
+  mode 0755
+  action :create
+end
+
 template "/etc/cinder/rootwrap.d/volume.filters" do
   source "volume_filters.erb"
   owner "root"
