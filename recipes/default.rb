@@ -1,19 +1,23 @@
 #
-# Cookbook Name:: ktc-cinder
-# Recipe:: default
+# Cookbook Name:: ktc-block-storage
+# Recipe:: api
 #
-# Author: Robert Choi <taeilchoi1@gmail.com>
-# Copyright 2013 by Robert Choi
+# Copyright 2013, KT Cloudware
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
+# All rights reserved - Do Not Redistribute
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
+
+class Chef::Recipe
+  include KTCUtils
+end
+
+set_rabbit_servers "block-storage"
+set_database_servers "volume"
+set_service_endpoint_ip "volume-api"
+
+include_recipe "openstack-common"
+include_recipe "openstack-common::logging"
+include_recipe "openstack-block-storage::api"
+include_recipe "openstack-block-storage::volume"
+include_recipe "openstack-block-storage::scheduler"
+include_recipe "openstack-block-storage::identity_registration"
