@@ -11,6 +11,9 @@ class Chef::Recipe
   include KTCUtils
 end
 
+d = get_openstack_service_template(get_interface_address("management"), "8776")
+register_service("volume-api", d)
+
 set_rabbit_servers "block-storage"
 set_database_servers "volume"
 set_service_endpoint_ip "volume-api"
