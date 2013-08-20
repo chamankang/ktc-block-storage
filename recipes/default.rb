@@ -12,7 +12,7 @@ class Chef::Recipe
 end
 
 d = get_openstack_service_template(get_interface_address("management"), "8776")
-register_service("volume-api", d)
+register_member("volume-api", d)
 
 set_rabbit_servers "block-storage"
 set_database_servers "volume"
