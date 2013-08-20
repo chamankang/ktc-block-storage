@@ -16,7 +16,11 @@ register_member("volume-api", d)
 
 set_rabbit_servers "block-storage"
 set_database_servers "volume"
-set_service_endpoint_ip "volume-api"
+set_service_endpoint "identity-api"
+set_service_endpoint "identity-admin"
+set_service_endpoint "image-registry"
+set_service_endpoint "image-api"
+set_service_endpoint "volume-api"
 
 include_recipe "openstack-common"
 include_recipe "openstack-common::logging"
