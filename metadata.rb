@@ -8,10 +8,7 @@ version           "0.2.0"
   supports os
 end
 
-%w{
-  ktc-utils
-  openstack-common
-  openstack-block-storage
-}.each do |dep|
-  depends dep
-end
+depends "ktc-utils", "~> 0.3.2"
+depends "openstack-common", "~> 0.4.3"
+depends "openstack-block-storage", "~> 7.0.1"
+depends "services", "~> 1.0.6"

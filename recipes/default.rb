@@ -7,20 +7,22 @@
 # All rights reserved - Do Not Redistribute
 #
 
-class Chef::Recipe
-  include KTCUtils
-end
+include_recipe "services"
+include_recipe "ktc-utils"
 
-d = get_openstack_service_template(get_interface_address("management"), "8776")
-register_member("volume-api", d)
+iface = KTC::Network.if_lookup "management"
+ip = KTC::Network.address "management"
 
-set_rabbit_servers "block-storage"
-set_database_servers "volume"
-set_service_endpoint "identity-api"
-set_service_endpoint "identity-admin"
-set_service_endpoint "image-registry"
-set_service_endpoint "image-api"
-set_service_endpoint "volume-api"
+Services::Connection.new run_context: run_context
+volume_api = Services::Member.new node.default.fqdn,
+  service: "volume-api",
+  port: 8776,
+  proto: "tcp",
+  ip: ip
+
+volume_api.save
+
+KTC::Attributes.set
 
 include_recipe "openstack-common"
 include_recipe "openstack-common::logging"
