@@ -1,0 +1,35 @@
+---
+driver_plugin: vagrant
+provisioner: chef_zero
+
+platforms:
+- name: ubuntu-12.04_chef-11.4.4
+  driver_config:
+    box: opscode-ubuntu-12.04_chef-11.4.4
+    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_chef-11.4.4.box
+
+suites:
+- name: default
+  run_list:
+    - recipe[ktc-testing]
+    - recipe[ktc-etcd]
+    - recipe[ktc-database]
+    - recipe[ktc-messaging]
+    - recipe[ktc-memcached]
+    - recipe[ktc-identity]
+    - recipe[ktc-block-storage]
+  attributes:
+    etcd:
+      args: '-c 127.0.0.1:4001 -s 127.0.0.1:7001 -f'
+      servers:
+        - 127.0.0.1
+    ha_disabled: true
+    mysql:
+      allow_remote_root: true
+      root_network_acl: '%'
+    openstack:
+      developer_mode: true
+
+clusters:
+  default:
+    - default
