@@ -6,17 +6,17 @@
     "ktc-database": {
       "locked_version": "0.1.0",
       "git": "git://github.com/cloudware-cookbooks/ktc-database.git",
-      "ref": "17145e74a1c5dbaeea1cc21e444afc68e4092aeb"
+      "ref": "24b6ad2fa21ede5f454bddc04dc4b288d8c19106"
     },
     "ktc-etcd": {
       "locked_version": "1.1.4",
       "git": "git://github.com/cloudware-cookbooks/ktc-etcd.git",
-      "ref": "6daab4a5eee14842e818ba30cc6bc9c88d61fe32"
+      "ref": "85ff6bf8451dec06dae181edecb594e0a85c4df3"
     },
     "ktc-identity": {
-      "locked_version": "1.0.20",
+      "locked_version": "1.1.0",
       "git": "git://github.com/cloudware-cookbooks/ktc-identity.git",
-      "ref": "ef714cd4444e7f0f738e8515cecf72c7eba6b5a4"
+      "ref": "991fb717f94c867471acedbc415411f12027d737"
     },
     "ktc-memcached": {
       "locked_version": "0.2.0",
@@ -26,12 +26,16 @@
     "ktc-messaging": {
       "locked_version": "0.1.0",
       "git": "git://github.com/cloudware-cookbooks/ktc-messaging.git",
-      "ref": "da3a2afd190dd82218ce924b9e110b969d7bf978"
+      "ref": "2985e11992a376f7ef576e8690b91866cdc9235d"
     },
     "ktc-utils": {
       "locked_version": "0.3.2",
       "git": "git://github.com/cloudware-cookbooks/ktc-utils.git",
+<<<<<<< HEAD
       "ref": "626e1e136bf811144453d5e482c0e6d59a7719e8"
+=======
+      "ref": "2ee6a15c28bd23ae7eff809060374e9d7412c733"
+>>>>>>> add ha nat
     },
     "memcached": {
       "locked_version": "1.5.1",
@@ -39,9 +43,9 @@
       "ref": "d527134987d4e53bb86bd2319b1f1cbf8171355a"
     },
     "openstack-block-storage": {
-      "locked_version": "7.0.1",
+      "locked_version": "7.0.3",
       "git": "git://github.com/stackforge/cookbook-openstack-block-storage.git",
-      "ref": "a5cff83f5c527ebb164f118e9312142738a15bee"
+      "ref": "bc00347db1b4e12caca5ccb21b1ec93237637d5c"
     },
     "openstack-common": {
       "locked_version": "0.4.3",
@@ -61,27 +65,27 @@
     "openstack-identity": {
       "locked_version": "7.0.0",
       "git": "git://github.com/stackforge/cookbook-openstack-identity.git",
-      "ref": "b881af26095cfa869a6970067c49597a0ee63586"
+      "ref": "f276a92eac9a781845147b0af71d627a60b75da6"
     },
     "openstack-image": {
       "locked_version": "7.0.0",
       "git": "git://github.com/stackforge/cookbook-openstack-image.git",
-      "ref": "722a973a09ef7c2d58ac010cd0659ca48a81c266"
+      "ref": "b42df8e3bcbec626d0691f7c84c9166c7d2c890c"
     },
     "openstack-metering": {
-      "locked_version": "7.0.3",
+      "locked_version": "7.0.4",
       "git": "git://github.com/stackforge/cookbook-openstack-metering.git",
-      "ref": "7a7926e6b472d48d02863ac6918921100862ca99"
+      "ref": "6ba0451ca2c66562fe6c40db053312c05ef03b15"
     },
     "openstack-network": {
       "locked_version": "7.0.0",
       "git": "git://github.com/stackforge/cookbook-openstack-network.git",
-      "ref": "45954b707295a1a1de0b5abc7fafd4d9bd8741c8"
+      "ref": "e3486bc67ba96e9fc260aabc2fda3712c55e591e"
     },
     "openstack-object-storage": {
       "locked_version": "1.1.0",
       "git": "git://github.com/stackforge/cookbook-openstack-object-storage.git",
-      "ref": "c34c9e7b118bd9e0f1bfabd493759fb8c249972d"
+      "ref": "54b7e7719af5edff343971d570bdfd2e8f162720"
     },
     "openstack-ops-database": {
       "locked_version": "7.0.0",
@@ -94,9 +98,9 @@
       "ref": "d57a3c64e09cd5e5ce7bcbf0cb84c9bbf67cab9a"
     },
     "services": {
-      "locked_version": "1.0.6",
+      "locked_version": "1.0.9",
       "git": "git://github.com/spheromak/services-cookbook.git",
-      "ref": "6ce7c7f76081a5d4d742adee58a94acf94137cac"
+      "ref": "02c892eea3896a532394af24f3ab1f146a3f4a16"
     },
     "ktc-testing": {
       "locked_version": "0.0.1",
