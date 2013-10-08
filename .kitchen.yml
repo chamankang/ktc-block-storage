@@ -18,6 +18,7 @@ suites:
     - recipe[ktc-memcached]
     - recipe[ktc-identity]
     - recipe[ktc-block-storage]
+    - recipe[ktc-block-storage::volume]
   attributes:
     etcd:
       args: '-c 127.0.0.1:4001 -s 127.0.0.1:7001 -f'
@@ -27,8 +28,29 @@ suites:
     mysql:
       allow_remote_root: true
       root_network_acl: '%'
+      server_debian_password: 'debian'
+      server_root_password: 'root'
+      server_repl_password: 'repl'
     openstack:
       developer_mode: true
+      block-storage:
+        enabled_backends:
+          nex-nfs1:
+            volume_driver: 'cinder.volume.drivers.nexenta.nfs.NexentaNfsDriver'
+            nexenta_host: '10.100.0.21'
+        nexenta:
+          nfs_shares:
+          - server_ip: '10.100.0.21'
+            mount_point: '/volumes/ipc-preprod-pod1-zpool0/cinder1'
+            management_url: 'http://admin:nexenta@10.100.0.21:2000/'
+          - server_ip: '10.100.0.22'
+            mount_point: '/volumes/ipc-preprod-pod2-zpool0/cinder1'
+    authorization:
+      sudo:
+        include_sudoers_d: true
+        users:
+          - vagrant
+        passwordless: true
 
 clusters:
   default:
