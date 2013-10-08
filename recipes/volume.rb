@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: ktc-block-storage
-# Recipe:: api
+# Recipe:: volume
 #
 # Copyright 2013, KT Cloudware
 #
@@ -9,18 +9,6 @@
 
 include_recipe "services"
 include_recipe "ktc-utils"
-
-iface = KTC::Network.if_lookup "management"
-ip = KTC::Network.address "management"
-
-Services::Connection.new run_context: run_context
-volume_api = Services::Member.new node["fqdn"],
-  service: "volume-api",
-  port: 8776,
-  proto: "tcp",
-  ip: ip
-
-volume_api.save
 
 KTC::Attributes.set
 
@@ -31,7 +19,7 @@ include_recipe "openstack-common::logging"
 chef_gem "chef-rewind"
 require 'chef/rewind'
 
-%w{ api scheduler }.each do |agent|
+%w{ volume }.each do |agent|
   cookbook_file "/etc/init/cinder-#{agent}.conf" do
     source "etc/init/cinder-#{agent}.conf"
     action :create
@@ -42,7 +30,15 @@ require 'chef/rewind'
 
   rewind :service => "cinder-#{agent}" do
     provider Chef::Provider::Service::Upstart
+    subscribes :restart, "template[/etc/cinder/cinder.conf]"
+    subscribes :restart, "template[/etc/cinder/nfs_shares]"
   end
 end
 
-include_recipe "openstack-block-storage::identity_registration"
+rewind :service => "iscsitarget" do
+  action :nothing
+end
+
+rewind :template => "/etc/tgt/targets.conf" do
+  action :nothing
+end
