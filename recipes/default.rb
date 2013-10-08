@@ -23,7 +23,6 @@ volume_api = Services::Member.new node[:fqdn],
 volume_api.save
 
 KTC::Attributes.set
-node.set["openstack"]["block-storage"]["rabbit"]["ha"] = true
 
 include_recipe "ktc-block-storage::source_install"
 include_recipe "openstack-common"

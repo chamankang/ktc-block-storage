@@ -11,7 +11,6 @@ include_recipe "services"
 include_recipe "ktc-utils"
 
 KTC::Attributes.set
-node.set["openstack"]["block-storage"]["rabbit"]["ha"] = true
 
 include_recipe "ktc-block-storage::source_install"
 include_recipe "openstack-common"
