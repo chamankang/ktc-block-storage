@@ -21,7 +21,7 @@ require 'chef/rewind'
 
 %w{ volume }.each do |agent|
   cookbook_file "/etc/init/cinder-#{agent}.conf" do
-    source "cinder-#{agent}.conf"
+    source "etc/init/cinder-#{agent}.conf"
     action :create
   end
 
