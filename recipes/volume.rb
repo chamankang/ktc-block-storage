@@ -24,7 +24,8 @@ require 'chef/rewind'
     source "cinder-#{agent}.conf"
     action :create
   end
-  
+
+  include_recipe "ktc-block-storage::cinder-common"
   include_recipe "openstack-block-storage::#{agent}"
 
   rewind :service => "cinder-#{agent}" do

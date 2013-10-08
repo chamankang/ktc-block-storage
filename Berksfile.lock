@@ -31,7 +31,7 @@
     "ktc-utils": {
       "locked_version": "0.3.2",
       "git": "git://github.com/cloudware-cookbooks/ktc-utils.git",
-      "ref": "aba680acad3ce639268364a9a23c53c81805f2ec"
+      "ref": "626e1e136bf811144453d5e482c0e6d59a7719e8"
     },
     "memcached": {
       "locked_version": "1.5.1",
@@ -106,6 +106,33 @@
     "ubuntu": {
       "locked_version": "1.1.2"
     },
+    "sudo": {
+      "locked_version": "2.1.4"
+    },
+    "git": {
+      "locked_version": "2.6.0"
+    },
+    "dmg": {
+      "locked_version": "2.0.0"
+    },
+    "build-essential": {
+      "locked_version": "1.4.2"
+    },
+    "yum": {
+      "locked_version": "2.3.2"
+    },
+    "windows": {
+      "locked_version": "1.10.0"
+    },
+    "chef_handler": {
+      "locked_version": "1.1.4"
+    },
+    "runit": {
+      "locked_version": "1.2.0"
+    },
+    "python": {
+      "locked_version": "1.4.0"
+    },
     "etcd": {
       "locked_version": "1.2.4"
     },
@@ -115,23 +142,11 @@
     "users": {
       "locked_version": "1.1.4"
     },
-    "runit": {
-      "locked_version": "1.2.0"
-    },
-    "build-essential": {
-      "locked_version": "1.4.2"
-    },
-    "yum": {
-      "locked_version": "2.3.2"
-    },
     "apt": {
       "locked_version": "2.1.1"
     },
     "selinux": {
       "locked_version": "0.5.6"
-    },
-    "python": {
-      "locked_version": "1.4.0"
     },
     "database": {
       "locked_version": "1.4.0"
@@ -159,18 +174,6 @@
     },
     "statsd": {
       "locked_version": "0.0.1"
-    },
-    "git": {
-      "locked_version": "2.6.0"
-    },
-    "dmg": {
-      "locked_version": "2.0.0"
-    },
-    "windows": {
-      "locked_version": "1.10.0"
-    },
-    "chef_handler": {
-      "locked_version": "1.1.4"
     },
     "rabbitmq": {
       "locked_version": "2.3.0"

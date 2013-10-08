@@ -45,6 +45,7 @@ suites:
             management_url: 'http://admin:nexenta@10.100.0.21:2000/'
           - server_ip: '10.100.0.22'
             mount_point: '/volumes/ipc-preprod-pod2-zpool0/cinder1'
+            management_url: 'http://admin:nexenta@10.100.0.22:2000/'
     authorization:
       sudo:
         include_sudoers_d: true
