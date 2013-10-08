@@ -28,6 +28,4 @@ template "/etc/cinder/nfs_shares" do
   owner  node["openstack"]["block-storage"]["user"]
   group  node["openstack"]["block-storage"]["group"]
   mode 00600
-
-  notifies :restart, "service[cinder-volume]", :immediately
 end

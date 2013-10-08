@@ -30,6 +30,8 @@ require 'chef/rewind'
 
   rewind :service => "cinder-#{agent}" do
     provider Chef::Provider::Service::Upstart
+    subscribes :restart, "template[/etc/cinder/cinder.conf]"
+    subscribes :restart, "template[/etc/cinder/nfs_shares]"
   end
 end
 
