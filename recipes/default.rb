@@ -21,7 +21,6 @@ volume_api = Services::Member.new node[:fqdn],
   ip: ip
 
 volume_api.save
-KTC::Network.add_service_nat "volume-api", 8776
 
 KTC::Attributes.set
 
