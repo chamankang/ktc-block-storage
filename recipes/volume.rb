@@ -12,15 +12,16 @@ include_recipe "ktc-utils"
 
 KTC::Attributes.set
 
-include_recipe "ktc-block-storage::source_install"
-include_recipe "openstack-common"
-include_recipe "openstack-common::logging"
-
 # giant fucking hack
 # TODO: Figure out why this isn't working upstream
 if node.platform_family == "debian"
+  package "qemu-utils"
   package "nfs-common"
 end
+
+include_recipe "ktc-block-storage::source_install"
+include_recipe "openstack-common"
+include_recipe "openstack-common::logging"
 
 chef_gem "chef-rewind"
 require 'chef/rewind'
