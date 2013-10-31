@@ -4,10 +4,10 @@ include_attribute "ktc-block-storage::default"
 
 default["openstack"]["block-storage"]["enabled_backends"] = {
   "nex-nfs1" => {
-    "volume_driver" => "cinder.volume.drivers.nexenta.nfs.NexentaNfsDriver",
-    "nexenta_host" => "10.100.0.21"
+    "volume_driver" => "cinder.volume.drivers.nexenta.nfs.NexentaNfsDriver"
   }
 }
+
 default["openstack"]["block-storage"]["nexenta"]["nfs_shares"] = [
   {
     "server_ip" => "10.100.0.21",
