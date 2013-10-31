@@ -14,7 +14,7 @@ iface = KTC::Network.if_lookup "management"
 ip = KTC::Network.address "management"
 
 Services::Connection.new run_context: run_context
-volume_api = Services::Member.new node[:fqdn],
+volume_api = Services::Member.new node['fqdn'],
   service: "volume-api",
   port: 8776,
   proto: "tcp",

@@ -19,20 +19,18 @@ include_recipe "openstack-common::logging"
 chef_gem "chef-rewind"
 require 'chef/rewind'
 
-%w{ volume }.each do |agent|
-  cookbook_file "/etc/init/cinder-#{agent}.conf" do
-    source "etc/init/cinder-#{agent}.conf"
-    action :create
-  end
+cookbook_file "/etc/init/cinder-volume.conf" do
+  source "etc/init/cinder-volume.conf"
+  action :create
+end
 
-  include_recipe "ktc-block-storage::cinder-common"
-  include_recipe "openstack-block-storage::#{agent}"
+include_recipe "ktc-block-storage::cinder-common"
+include_recipe "openstack-block-storage::volume"
 
-  rewind :service => "cinder-#{agent}" do
-    provider Chef::Provider::Service::Upstart
-    subscribes :restart, "template[/etc/cinder/cinder.conf]"
-    subscribes :restart, "template[/etc/cinder/nfs_shares]"
-  end
+rewind :service => "cinder-volume" do
+  provider Chef::Provider::Service::Upstart
+  subscribes :restart, "template[/etc/cinder/cinder.conf]"
+  subscribes :restart, "template[/etc/cinder/nfs_shares]"
 end
 
 rewind :service => "iscsitarget" do
