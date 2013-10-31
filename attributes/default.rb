@@ -6,9 +6,9 @@ when "ubuntu"
   default["openstack"]["block-storage"]["platform"]["mysql_python_packages"] = []
   default["openstack"]["block-storage"]["platform"]["postgresql_python_packages"] = []
   default["openstack"]["block-storage"]["platform"]["cinder_common_packages"] = ["python-cinderclient"]
-  default["openstack"]["block-storage"]["platform"]["cinder_api_packages" => []
-  default["openstack"]["block-storage"]["platform"]["cinder_volume_packages" => []
-  default["openstack"]["block-storage"]["platform"]["cinder_scheduler_packages" => []
+  default["openstack"]["block-storage"]["platform"]["cinder_api_packages"] = []
+  default["openstack"]["block-storage"]["platform"]["cinder_volume_packages"] = []
+  default["openstack"]["block-storage"]["platform"]["cinder_scheduler_packages"] = []
   default["openstack"]["block-storage"]["platform"]["cinder_iscsitarget_packages"] = []
   default["openstack"]["block-storage"]["platform"]["package_overrides"] = "-o Dpkg::Options::='--force-confold' -o Dpkg::Options::='--force-confdef'"
 end
