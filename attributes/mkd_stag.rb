@@ -2,7 +2,7 @@ return unless chef_environment == "mkd_stag"
 
 include_attribute "ktc-block-storage::default"
 
-default["openstack"]["block-storage"]["enabled_backends"] = { }
+default["openstack"]["block-storage"]["enabled_backends"] = {}
 default["openstack"]["block-storage"]["nexenta"]["nfs_shares"] = [
   {
     "server_ip" => "snode01-disk",

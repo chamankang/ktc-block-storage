@@ -10,7 +10,8 @@ when "ubuntu"
   default["openstack"]["block-storage"]["platform"]["cinder_volume_packages"] = []
   default["openstack"]["block-storage"]["platform"]["cinder_scheduler_packages"] = []
   default["openstack"]["block-storage"]["platform"]["cinder_iscsitarget_packages"] = []
-  default["openstack"]["block-storage"]["platform"]["package_overrides"] = "-o Dpkg::Options::='--force-confold' -o Dpkg::Options::='--force-confdef'"
+  default["openstack"]["block-storage"]["platform"]["package_overrides"] =
+    "-o Dpkg::Options::='--force-confold' -o Dpkg::Options::='--force-confdef'"
 end
 default["openstack"]["block-storage"]["cinder"]["git_repo"] = "https://github.com/openstack/cinder"
 default["openstack"]["block-storage"]["cinder"]["git_ref"] = "master"
