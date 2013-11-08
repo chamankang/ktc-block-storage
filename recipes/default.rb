@@ -57,11 +57,10 @@ processes.each do |process|
     handlers ["default"]
     standalone true
     interval 20
-  end 
+  end
 end
 
 collectd_processes "block-storage-api-processes" do
   input processes
   key "shortname"
 end
-

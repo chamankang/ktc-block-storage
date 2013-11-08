@@ -57,7 +57,7 @@ processes.each do |process|
     handlers ["default"]
     standalone true
     interval 20
-  end 
+  end
 end
 
 collectd_processes "block-storage-volume-processes" do

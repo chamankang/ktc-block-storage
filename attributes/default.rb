@@ -22,12 +22,11 @@ default["openstack"]["block-storage"]["enabled_backends"] = {}
 default["openstack"]["block-storage"]["nexenta"]["nfs_shares"] = []
 
 # process monitoring
-default["openstack"]["block-storage"]["api_processes"] = [ 
+default["openstack"]["block-storage"]["api_processes"] = [
   { "name" =>  "cinder-api", "shortname" =>  "cinder-api" },
   { "name" =>  "cinder-scheduler", "shortname" =>  "cinder-schedule" }
 ]
 
-default["openstack"]["block-storage"]["volume_processes"] = [ 
+default["openstack"]["block-storage"]["volume_processes"] = [
   { "name" =>  "cinder-volume", "shortname" =>  "cinder-volume" }
 ]
-
