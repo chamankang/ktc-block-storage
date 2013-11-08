@@ -31,7 +31,7 @@
       "locked_version": "1.4.2"
     },
     "yum": {
-      "locked_version": "2.3.4"
+      "locked_version": "2.4.3"
     },
     "windows": {
       "locked_version": "1.10.0"
@@ -99,6 +99,30 @@
     "sudo": {
       "locked_version": "2.2.0"
     },
+    "sensu": {
+      "locked_version": "0.6.0"
+    },
+    "rabbitmq": {
+      "locked_version": "2.3.3"
+    },
+    "erlang": {
+      "locked_version": "1.3.2"
+    },
+    "redisio": {
+      "locked_version": "1.7.0"
+    },
+    "ulimit": {
+      "locked_version": "0.3.1"
+    },
+    "ktc-collectd": {
+      "locked_version": "0.9.3"
+    },
+    "collectd": {
+      "locked_version": "1.0.8"
+    },
+    "logrotate": {
+      "locked_version": "1.3.0"
+    },
     "openstack-ops-database": {
       "locked_version": "7.0.0"
     },
@@ -127,7 +151,7 @@
       "locked_version": "0.3.0"
     },
     "ktc-openstack-ha": {
-      "locked_version": "2.0.5"
+      "locked_version": "2.0.11"
     },
     "haproxy": {
       "locked_version": "1.5.0"
@@ -149,12 +173,6 @@
     },
     "openstack-ops-messaging": {
       "locked_version": "7.0.0"
-    },
-    "rabbitmq": {
-      "locked_version": "2.3.0"
-    },
-    "erlang": {
-      "locked_version": "1.3.2"
     },
     "users": {
       "locked_version": "2.0.2"
