@@ -21,6 +21,9 @@ default["openstack"]["block-storage"]["cinder"]["git_ref"] = "master"
 default["openstack"]["block-storage"]["enabled_backends"] = {}
 default["openstack"]["block-storage"]["nexenta"]["nfs_shares"] = []
 
+# Use syslog by default
+default["openstack"]["block-storage"]["syslog"]["use"] = true
+
 # process monitoring
 default["openstack"]["block-storage"]["api_processes"] = [
   { "name" =>  "cinder-api", "shortname" =>  "cinder-api" },
