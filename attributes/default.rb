@@ -20,3 +20,13 @@ default["openstack"]["block-storage"]["cinder"]["git_ref"] = "master"
 # See the case in attributes/ipc_ng.rb
 default["openstack"]["block-storage"]["enabled_backends"] = {}
 default["openstack"]["block-storage"]["nexenta"]["nfs_shares"] = []
+
+# process monitoring
+default["openstack"]["block-storage"]["api_processes"] = [
+  { "name" =>  "cinder-api", "shortname" =>  "cinder-api" },
+  { "name" =>  "cinder-scheduler", "shortname" =>  "cinder-schedule" }
+]
+
+default["openstack"]["block-storage"]["volume_processes"] = [
+  { "name" =>  "cinder-volume", "shortname" =>  "cinder-volume" }
+]
