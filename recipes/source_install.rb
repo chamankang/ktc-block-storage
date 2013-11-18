@@ -1,5 +1,4 @@
 include_recipe "sudo"
-include_recipe "git"
 include_recipe "python"
 
 user node["openstack"]["block-storage"]["user"] do
