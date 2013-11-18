@@ -8,9 +8,11 @@ site :opscode
 
 metadata
 
-cookbook 'ktc-database'
-cookbook 'ktc-etcd'
-cookbook 'ktc-identity'
-cookbook 'ktc-memcached'
-cookbook 'ktc-messaging'
-cookbook 'ktc-testing'
+group :integration do
+  cookbook 'ktc-database'
+  cookbook 'ktc-etcd'
+  cookbook 'ktc-identity'
+  cookbook 'ktc-memcached'
+  cookbook 'ktc-messaging'
+  cookbook 'ktc-testing'
+end
