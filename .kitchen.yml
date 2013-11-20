@@ -16,13 +16,12 @@ suites:
 - name: default
   run_list:
     - recipe[ktc-testing]
-    - recipe[ktc-etcd]
+    - recipe[etcd::compile_time]
+    - recipe[ktc-monitor::client]
     - recipe[ktc-database]
     - recipe[ktc-messaging]
     - recipe[ktc-memcached]
     - recipe[ktc-identity]
-    - recipe[sensu::default]
-    - recipe[collectd::client]
     - recipe[ktc-block-storage]
     - recipe[ktc-block-storage::volume]
   attributes:
