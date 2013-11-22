@@ -40,6 +40,25 @@ rewind :service => "cinder-volume" do
   subscribes :restart, "template[/etc/cinder/nfs_shares]"
 end
 
+az = node["openstack"]["availability_zone"]
+if az
+  nfs_shares = node["openstack"]["block-storage"]["nexenta"]["nfs_shares"].select {
+    |n| (n.has_key? "zone_name") && (n["zone_name"] == az)
+  }
+else
+  nfs_shares = node["openstack"]["block-storage"]["nexenta"]["nfs_shares"]
+end
+
+template "/etc/cinder/nfs_shares" do
+  source "nfs_shares.erb"
+  owner  node["openstack"]["block-storage"]["user"]
+  group  node["openstack"]["block-storage"]["group"]
+  variables(
+    :nfs_shares => nfs_shares
+  )
+  mode 00600
+end
+
 rewind :service => "iscsitarget" do
   action :nothing
 end

@@ -1,5 +1,5 @@
 <%= node["openstack"]["block-storage"]["custom_template_banner"] %>
 
-<% node["openstack"]["block-storage"]["nexenta"]["nfs_shares"].each do |share| %>
+<% @nfs_shares.each do |share| %>
 <%= share["server_ip"] %>:<%= share["mount_point"] %> <%= share["management_url"] %>
 <% end %>
