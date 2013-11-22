@@ -13,7 +13,7 @@ when "ubuntu"
   default["openstack"]["block-storage"]["platform"]["cinder_nfs_packages"] = ["nfs-common"]
   default["openstack"]["block-storage"]["platform"]["package_overrides"] =
     "-o Dpkg::Options::='--force-confold' -o Dpkg::Options::='--force-confdef'"
-  default["openstack"]["compute"]["platform"]["pip_requires_packages"] = %w{
+  default["openstack"]["block-storage"]["platform"]["pip_requires_packages"] = %w{
     libxml2-dev libxslt-dev python-mysqldb
   }
 end
