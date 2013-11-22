@@ -43,7 +43,8 @@ end
 az = node["openstack"]["availability_zone"]
 if az
   node.set["openstack"]["block-storage"]["storage_availability_zone"] = az
-  nfs_shares = node["openstack"]["block-storage"]["nexenta"]["nfs_shares"].select {
+  ns = node["openstack"]["block-storage"]["nexenta"]["nfs_shares"]
+  nfs_shares = ns.select {
     |n| (n.has_key? "zone_name") && (n["zone_name"] == az)
   }
 else
