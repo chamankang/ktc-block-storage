@@ -12,21 +12,21 @@ default["openstack"]["block-storage"]["nexenta"]["nfs_shares"] = [
   {
     "server_ip" => "10.217.244.119",
     "mount_point" => "/volumes/pool1-t1spod1-dmzdev/cinder01",
-    "zone_name" => "dmz-dev"
+    "zone_name" => "cheonan.dev.dmz"
   },
   {
     "server_ip" => "10.217.244.120",
     "mount_point" => "/volumes/pool2-t1spod1-dmzdev/cinder02",
-    "zone_name" => "dmz-dev"
+    "zone_name" => "cheonan.dev.dmz"
   },
   {
     "server_ip" => "10.217.244.119",
     "mount_point" => "/volumes/pool1-t1spod1-ktisdev/cinder01",
-    "zone_name" => "ktis-dev"
+    "zone_name" => "cheonan.dev.ktis"
   },
   {
     "server_ip" => "10.217.244.120",
     "mount_point" => "/volumes/pool2-t1spod1-ktisdev/cinder02",
-    "zone_name" => "ktis-dev"
+    "zone_name" => "cheonan.dev.ktis"
   }
 ]
