@@ -801,10 +801,6 @@ nfs_sparsed_volumes=<%= node["openstack"]["block-storage"]["nfs"]["nfs_sparsed_v
 # zadara_vpsa_allow_nonexistent_delete=true
 #### (BoolOpt) Don't halt on deletion of non-existing volumes
 
-<% if node["openstack"]["availability_zone"] %>
-availability_zone = <%= node["openstack"]["availability_zone"] %>
-<% end %>
-
 <% if node["openstack"]["block-storage"]["enabled_backends"] %>
 enabled_backends=<%= node["openstack"]["block-storage"]["enabled_backends"].keys.join(",") %>
 <%   node["openstack"]["block-storage"]["enabled_backends"].each do |name, attrs| %>
