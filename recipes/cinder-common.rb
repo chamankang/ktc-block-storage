@@ -22,10 +22,3 @@ cookbook_file "/etc/cinder/rootwrap.conf" do
   group node["openstack"]["block-storage"]["group"]
   mode 00644
 end
-
-template "/etc/cinder/nfs_shares" do
-  source "nfs_shares.erb"
-  owner  node["openstack"]["block-storage"]["user"]
-  group  node["openstack"]["block-storage"]["group"]
-  mode 00600
-end
