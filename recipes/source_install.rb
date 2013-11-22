@@ -16,6 +16,12 @@ sudo "cinder_sudoers" do
   commands ["/usr/local/bin/cinder-rootwrap"]
 end
 
+node["openstack"]["block-storage"]["platform"]["pip_requires_packages"].each do |pkg|
+  package pkg do
+    action :install
+  end
+end
+
 git "#{Chef::Config[:file_cache_path]}/cinder" do
   repository node["openstack"]["block-storage"]["cinder"]["git_repo"]
   reference node["openstack"]["block-storage"]["cinder"]["git_ref"]
