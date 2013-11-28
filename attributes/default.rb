@@ -13,6 +13,9 @@ when "ubuntu"
   default["openstack"]["block-storage"]["platform"]["cinder_nfs_packages"] = ["nfs-common"]
   default["openstack"]["block-storage"]["platform"]["package_overrides"] =
     "-o Dpkg::Options::='--force-confold' -o Dpkg::Options::='--force-confdef'"
+  default["openstack"]["block-storage"]["platform"]["pip_requires_packages"] = %w{
+    libxml2-dev libxslt-dev python-mysqldb
+  }
 end
 default["openstack"]["block-storage"]["cinder"]["git_repo"] = "https://github.com/openstack/cinder"
 default["openstack"]["block-storage"]["cinder"]["git_ref"] = "master"
