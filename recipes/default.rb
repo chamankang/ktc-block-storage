@@ -26,7 +26,7 @@ KTC::Attributes.set
 
 include_recipe "ktc-block-storage::source_install"
 include_recipe "openstack-common"
-include_recipe "openstack-common::logging"
+include_recipe "ktc-logging::logging"
 
 chef_gem "chef-rewind"
 require 'chef/rewind'
