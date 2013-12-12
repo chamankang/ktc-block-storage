@@ -1,5 +1,4 @@
 include_recipe "sudo"
-include_recipe "git"
 include_recipe "python"
 
 user node["openstack"]["block-storage"]["user"] do
@@ -35,13 +34,7 @@ directory "/var/log/cinder" do
   action :create
 end
 
-if node["cinder_version"].nil?
-  package "cinder" do
-    action :install
-  end
-else
-  package "cinder" do
-    action :install
-    version node["cinder_version"]
-  end
+package "cinder" do
+  action :install
+  version node["cinder_version"] unless node["cinder_version"].nil?
 end
