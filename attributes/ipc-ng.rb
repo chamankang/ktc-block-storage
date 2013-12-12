@@ -2,7 +2,7 @@ return unless chef_environment == "ipc-ng"
 
 include_attribute "ktc-block-storage::default"
 
-default[:cinder_version] = "2013.2.1.dev47.g430f0b9"
+default["cinder_version"] = "2013.2.1.dev47.g430f0b9"
 
 default["openstack"]["block-storage"]["enabled_backends"] = {
   "nex-nfs1" => {
