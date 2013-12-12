@@ -14,7 +14,7 @@ KTC::Attributes.set
 
 # giant fucking hack
 # TODO: Figure out why this isn't working upstream
-if node.platform_family == "debian"
+if node["platform_family"] == "debian"
   package "qemu-utils"
   package "nfs-common"
 end
