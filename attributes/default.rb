@@ -17,8 +17,6 @@ when "ubuntu"
     libxml2-dev libxslt-dev python-mysqldb
   }
 end
-default["openstack"]["block-storage"]["cinder"]["git_repo"] = "https://github.com/openstack/cinder"
-default["openstack"]["block-storage"]["cinder"]["git_ref"] = "master"
 
 # See the case in attributes/ipc_ng.rb
 default["openstack"]["block-storage"]["enabled_backends"] = {}
