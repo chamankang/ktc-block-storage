@@ -24,7 +24,7 @@ volume_api.save
 
 KTC::Attributes.set
 
-include_recipe "ktc-block-storage::source_install"
+include_recipe "ktc-block-storage::package_install"
 include_recipe "openstack-common"
 include_recipe "ktc-logging::logging"
 

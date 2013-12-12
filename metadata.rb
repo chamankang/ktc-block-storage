@@ -8,7 +8,6 @@ version '0.2.12'
   supports os
 end
 
-depends "git"
 depends "ktc-utils", ">= 0.3.3"
 depends "openstack-block-storage", "~> 7.0.1"
 depends "openstack-common", "~> 0.4.3"
