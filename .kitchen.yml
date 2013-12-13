@@ -6,6 +6,10 @@ provisioner:
 driver:
   name: vagrant
 
+driver_config:
+  customize:
+    memory: 512
+
 platforms:
   - name: centos-6.4
   - name: ubuntu-12.04
