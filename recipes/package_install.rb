@@ -22,9 +22,9 @@ node["openstack"]["block-storage"]["platform"]["pip_requires_packages"].each do
 end
 
 python_pip "cinder-pip-requires" do
-  package_name "#{Chef::Config[:file_cache_path]}/cinder/requirements.txt"
+  package_name "#{Chef::Config[:file_cache_path]}/cookbooks/ktc-block-storage/files/default//requirements.txt"
   options "-r"
-  action :nothing
+  action :install
 end
 
 directory "/var/log/cinder" do
@@ -34,7 +34,16 @@ directory "/var/log/cinder" do
   action :create
 end
 
+# package not signed, force install
+case node["platform"]
+when "ubuntu"
+  pkg_options = "--force-yes"
+else
+  pkg_options = ""
+end
+
 package "cinder" do
   action :install
   version node["cinder_version"] unless node["cinder_version"].nil?
+  options pkg_options
 end
