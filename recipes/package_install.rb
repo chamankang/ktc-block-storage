@@ -22,7 +22,7 @@ node["openstack"]["block-storage"]["platform"]["pip_requires_packages"].each do
 end
 
 python_pip "cinder-pip-requires" do
-  package_name "#{Chef::Config[:file_cache_path]}/cookbooks/ktc-block-storage/files/default//requirements.txt"
+  package_name "#{Chef::Config[:file_cache_path]}/cookbooks/ktc-block-storage/files/default/requirements.txt"
   options "-r"
   action :install
 end
