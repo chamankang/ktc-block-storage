@@ -1,0 +1,10 @@
+{
+  "chef": {
+    "chef_server_url": "https://cookbooks.mkd2.ktc",
+    "node_name": "cookbook",
+    "client_key": ".cookbook.pem"
+  },
+  "ssl": {
+    "verify": false
+  }
+}

@@ -8,12 +8,12 @@ version '0.2.12'
   supports os
 end
 
-depends "git"
 depends "ktc-utils", ">= 0.3.3"
 depends "openstack-block-storage", "~> 7.0.1"
 depends "openstack-common", "~> 0.4.3"
 depends "python"
 depends "services", ">= 1.1.1"
 depends "sudo"
-depends "ktc-monitor"
 depends "ktc-logging"
+depends "ktc-monitor"
+depends "ktc-package"

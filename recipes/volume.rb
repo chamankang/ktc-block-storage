@@ -14,12 +14,12 @@ KTC::Attributes.set
 
 # giant fucking hack
 # TODO: Figure out why this isn't working upstream
-if node.platform_family == "debian"
+if node["platform_family"] == "debian"
   package "qemu-utils"
   package "nfs-common"
 end
 
-include_recipe "ktc-block-storage::source_install"
+include_recipe "ktc-block-storage::package_install"
 include_recipe "openstack-common"
 include_recipe "ktc-logging::logging"
 

@@ -1,6 +1,6 @@
 include_recipe "sudo"
-include_recipe "git"
 include_recipe "python"
+include_recipe "ktc-package"
 
 user node["openstack"]["block-storage"]["user"] do
   home "/var/lib/cinder"
@@ -22,26 +22,18 @@ node["openstack"]["block-storage"]["platform"]["pip_requires_packages"].each do
   end
 end
 
-git "#{Chef::Config[:file_cache_path]}/cinder" do
-  repository node["openstack"]["block-storage"]["cinder"]["git_repo"]
-  reference node["openstack"]["block-storage"]["cinder"]["git_ref"]
-  action :sync
-  notifies :install, "python_pip[cinder-pip-requires]", :immediately
-  notifies :run, "bash[install_cinder]", :immediately
+src = "https://raw.github.com/openstack/cinder/stable/havana/requirements.txt"
+loc = "#{Chef::Config[:file_cache_path]}/requirements.txt"
+
+remote_file loc do
+  source src
+  not_if { ::File.exist?(loc) }
 end
 
 python_pip "cinder-pip-requires" do
-  package_name "#{Chef::Config[:file_cache_path]}/cinder/requirements.txt"
+  package_name loc
   options "-r"
-  action :nothing
-end
-
-bash "install_cinder" do
-  cwd "#{Chef::Config[:file_cache_path]}/cinder"
-  code <<-EOF
-    python ./setup.py install
-  EOF
-  action :nothing
+  action :install
 end
 
 directory "/var/log/cinder" do
@@ -49,4 +41,9 @@ directory "/var/log/cinder" do
   group "adm"
   mode 00750
   action :create
+end
+
+package "cinder" do
+  action :install
+  version node["cinder_version"] unless node["cinder_version"].nil?
 end
