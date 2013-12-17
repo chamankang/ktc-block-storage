@@ -2,6 +2,9 @@
 require 'rake'
 require 'rspec/core/rake_task'
 
+cfg_dir = File.expand_path File.dirname(__FILE__)
+ENV['BERKSHELF_PATH'] = cfg_dir + '/.berks'
+
 task :default => 'test:quick'
 
 namespace :test do
