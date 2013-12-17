@@ -2,7 +2,7 @@ name              "ktc-block-storage"
 maintainer        "Robert Choi"
 license           "Apache 2.0"
 description       "KTC-wrapper for block-storage cookbook"
-version '0.2.12'
+version '0.2.13'
 
 %w{ centos ubuntu }.each do |os|
   supports os
