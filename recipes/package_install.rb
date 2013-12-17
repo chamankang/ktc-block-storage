@@ -21,8 +21,16 @@ node["openstack"]["block-storage"]["platform"]["pip_requires_packages"].each do
   end
 end
 
+src = "https://raw.github.com/openstack/cinder/stable/havana/requirements.txt"
+loc = "#{Chef::Config[:file_cache_path]}/requirements.txt"
+
+remote_file loc do
+  source src
+  not_if { ::File.exist?(loc) }
+end
+
 python_pip "cinder-pip-requires" do
-  package_name "#{Chef::Config[:file_cache_path]}/cookbooks/ktc-block-storage/files/default/requirements.txt"
+  package_name loc
   options "-r"
   action :install
 end
