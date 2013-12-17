@@ -1,5 +1,6 @@
 include_recipe "sudo"
 include_recipe "python"
+include_recupe "ktc-package"
 
 user node["openstack"]["block-storage"]["user"] do
   home "/var/lib/cinder"
@@ -42,16 +43,7 @@ directory "/var/log/cinder" do
   action :create
 end
 
-# package not signed, force install
-case node["platform"]
-when "ubuntu"
-  pkg_options = "--force-yes"
-else
-  pkg_options = ""
-end
-
 package "cinder" do
   action :install
   version node["cinder_version"] unless node["cinder_version"].nil?
-  options pkg_options
 end
