@@ -17,3 +17,5 @@ berks.json
 .vagabond
 Berksfile.lock
 Gemfile.lock
+.berks/cookbooks
+.berks/tmp
