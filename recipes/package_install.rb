@@ -1,6 +1,6 @@
 include_recipe "sudo"
 include_recipe "python"
-include_recupe "ktc-package"
+include_recipe "ktc-package"
 
 user node["openstack"]["block-storage"]["user"] do
   home "/var/lib/cinder"
