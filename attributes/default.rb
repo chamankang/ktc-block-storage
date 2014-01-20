@@ -5,17 +5,11 @@ case platform
 when "ubuntu"
   default["openstack"]["block-storage"]["platform"]["mysql_python_packages"] = []
   default["openstack"]["block-storage"]["platform"]["postgresql_python_packages"] = []
-  default["openstack"]["block-storage"]["platform"]["cinder_common_packages"] = ["python-cinderclient"]
-  default["openstack"]["block-storage"]["platform"]["cinder_api_packages"] = []
-  default["openstack"]["block-storage"]["platform"]["cinder_volume_packages"] = []
+  default["openstack"]["block-storage"]["platform"]["cinder_common_packages"] = []
+  default["openstack"]["block-storage"]["platform"]["cinder_api_packages"] = ["openstack"]
+  default["openstack"]["block-storage"]["platform"]["cinder_volume_packages"] = ["openstack"]
   default["openstack"]["block-storage"]["platform"]["cinder_scheduler_packages"] = []
   default["openstack"]["block-storage"]["platform"]["cinder_iscsitarget_packages"] = []
-  default["openstack"]["block-storage"]["platform"]["cinder_nfs_packages"] = ["nfs-common"]
-  default["openstack"]["block-storage"]["platform"]["package_overrides"] =
-    "-o Dpkg::Options::='--force-confold' -o Dpkg::Options::='--force-confdef'"
-  default["openstack"]["block-storage"]["platform"]["pip_requires_packages"] = %w{
-    libxml2-dev libxslt-dev python-mysqldb
-  }
 end
 
 # See the case in attributes/ipc_ng.rb
