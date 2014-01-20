@@ -24,29 +24,24 @@ volume_api.save
 
 KTC::Attributes.set
 
-include_recipe "ktc-block-storage::package_install"
 include_recipe "openstack-common"
 include_recipe "ktc-logging::logging"
-
-chef_gem "chef-rewind"
-require 'chef/rewind'
+include_recipe "ktc-block-storage::package_setup"
 
 %w{ api scheduler }.each do |agent|
   cookbook_file "/etc/init/cinder-#{agent}.conf" do
     source "etc/init/cinder-#{agent}.conf"
-    action :create
+  end
+
+  link "/etc/init.d/cinder-#{agent}" do
+    to "/lib/init/upstart-job"
   end
 
   include_recipe "ktc-block-storage::cinder-common"
   include_recipe "openstack-block-storage::#{agent}"
-
-  rewind :service => "cinder-#{agent}" do
-    provider Chef::Provider::Service::Upstart
-  end
 end
 
 include_recipe "openstack-block-storage::identity_registration"
-
 
 # process monitoring and sensu-check config
 processes = node['openstack']['block-storage']['api_processes']

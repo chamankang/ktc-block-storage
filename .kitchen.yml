@@ -5,54 +5,52 @@ provisioner:
 
 driver:
   name: vagrant
-
-driver_config:
   customize:
-    memory: 512
+    memory: 1024
 
 platforms:
   - name: centos-6.4
   - name: ubuntu-12.04
 
 suites:
-- name: default
-  run_list:
-    - recipe[ktc-testing]
-    - recipe[etcd::compile_time]
-    - recipe[ktc-monitor::client]
-    - recipe[ktc-database]
-    - recipe[ktc-messaging]
-    - recipe[ktc-memcached]
-    - recipe[ktc-identity]
-    - recipe[ktc-block-storage]
-    - recipe[ktc-block-storage::volume]
-  attributes:
-    etcd:
-      args: '-c 127.0.0.1:4001 -s 127.0.0.1:7001 -f'
-      servers:
-        - 127.0.0.1
-    ha_disabled: true
-    mysql:
-      allow_remote_root: true
-      root_network_acl: '%'
-      server_debian_password: 'debian'
-      server_root_password: 'root'
-      server_repl_password: 'repl'
-    openstack:
-      developer_mode: true
-      block-storage:
-        enabled_backends:
-        nexenta:
-          nfs_shares:
-          - server_ip: '10.100.0.21'
-            mount_point: '/volumes/ipc-preprod-pod1-zpool0/cinder1'
-            management_url: 'http://admin:nexenta@10.100.0.21:2000/'
-          - server_ip: '10.100.0.22'
-            mount_point: '/volumes/ipc-preprod-pod2-zpool0/cinder1'
-            management_url: 'http://admin:nexenta@10.100.0.22:2000/'
-    authorization:
-      sudo:
-        include_sudoers_d: true
-        users:
-          - vagrant
-        passwordless: true
+  - name: default
+    run_list:
+      - recipe[ktc-testing]
+      - recipe[etcd::compile_time]
+      - recipe[ktc-monitor::client]
+      - recipe[ktc-database]
+      - recipe[ktc-messaging]
+      - recipe[ktc-memcached]
+      - recipe[ktc-identity]
+      - recipe[ktc-block-storage]
+      - recipe[ktc-block-storage::volume]
+    attributes:
+      etcd:
+        args: '-c 127.0.0.1:4001 -s 127.0.0.1:7001 -f'
+        servers:
+          - 127.0.0.1
+      ha_disabled: true
+      mysql:
+        allow_remote_root: true
+        root_network_acl: '%'
+        server_debian_password: 'debian'
+        server_root_password: 'root'
+        server_repl_password: 'repl'
+      openstack:
+        developer_mode: true
+        block-storage:
+          enabled_backends:
+          nexenta:
+            nfs_shares:
+            - server_ip: '10.100.0.21'
+              mount_point: '/volumes/ipc-preprod-pod1-zpool0/cinder1'
+              management_url: 'http://admin:nexenta@10.100.0.21:2000/'
+            - server_ip: '10.100.0.22'
+              mount_point: '/volumes/ipc-preprod-pod2-zpool0/cinder1'
+              management_url: 'http://admin:nexenta@10.100.0.22:2000/'
+      authorization:
+        sudo:
+          include_sudoers_d: true
+          users:
+            - vagrant
+          passwordless: true
