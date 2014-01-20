@@ -19,9 +19,10 @@ if node["platform_family"] == "debian"
   package "nfs-common"
 end
 
-include_recipe "ktc-block-storage::package_install"
 include_recipe "openstack-common"
 include_recipe "ktc-logging::logging"
+include_recipe "ktc-block-storage::package_setup"
+include_recipe "ktc-block-storage::cinder-common"
 
 chef_gem "chef-rewind"
 require 'chef/rewind'
@@ -31,14 +32,11 @@ cookbook_file "/etc/init/cinder-volume.conf" do
   action :create
 end
 
-include_recipe "ktc-block-storage::cinder-common"
-include_recipe "openstack-block-storage::volume"
-
-rewind :service => "cinder-volume" do
-  provider Chef::Provider::Service::Upstart
-  subscribes :restart, "template[/etc/cinder/cinder.conf]"
-  subscribes :restart, "template[/etc/cinder/nfs_shares]"
+link "/etc/init.d/cinder-volume" do
+  to "/lib/init/upstart-job"
 end
+
+include_recipe "openstack-block-storage::volume"
 
 az = node["openstack"]["availability_zone"]
 if az
