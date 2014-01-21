@@ -8,7 +8,7 @@ end
 user node["openstack"]["block-storage"]["user"] do
   home "/var/lib/cinder"
   gid node["openstack"]["block-storage"]["group"]
-  shell "/bin/false"
+  shell "/bin/sh"
   system true
   supports :manage_home => true
 end
@@ -21,11 +21,16 @@ sudo "cinder_sudoers" do
   commands ["/usr/local/bin/cinder-rootwrap"]
 end
 
-directory "/var/log/cinder" do
-  owner node["openstack"]["block-storage"]["user"]
-  group node["openstack"]["block-storage"]["group"]
-  mode 00755
-  action :create
+%w|
+  /var/log/cinder
+  /var/lib/cinder/.python-eggs
+|.each do |d|
+  directory "#{d}" do
+    owner node["openstack"]["block-storage"]["user"]
+    group node["openstack"]["block-storage"]["group"]
+    mode 00755
+    action :create
+  end
 end
 
 %w/
