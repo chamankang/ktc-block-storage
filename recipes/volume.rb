@@ -57,6 +57,7 @@ template "/etc/cinder/nfs_shares" do
     :nfs_shares => nfs_shares
   )
   mode 00600
+  notifies :restart, "service[cinder-volume]"
 end
 
 rewind :service => "iscsitarget" do
