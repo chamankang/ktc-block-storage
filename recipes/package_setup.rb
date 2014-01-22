@@ -22,8 +22,11 @@ sudo "cinder_sudoers" do
 end
 
 %w|
-  /var/log/cinder
+  /var/cache/cinder
+  /var/cache/cinder/api
   /var/lib/cinder/.python-eggs
+  /var/log/cinder
+  /var/run/cinder
 |.each do |d|
   directory "#{d}" do
     owner node["openstack"]["block-storage"]["user"]
