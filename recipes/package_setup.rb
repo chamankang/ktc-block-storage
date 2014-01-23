@@ -18,7 +18,7 @@ sudo "cinder_sudoers" do
   host     "ALL"
   runas    "root"
   nopasswd true
-  commands ["/usr/local/bin/cinder-rootwrap"]
+  commands ["/usr/bin/cinder-rootwrap"]
 end
 
 %w|
