@@ -52,3 +52,7 @@ end
     to "/opt/openstack/cinder/bin/#{p}"
   end
 end
+
+link "/usr/bin/cinder" do
+  to "/opt/openstack/cinderclient/bin/cinder"
+end
