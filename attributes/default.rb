@@ -12,6 +12,11 @@ when "ubuntu"
   default["openstack"]["block-storage"]["platform"]["cinder_iscsitarget_packages"] = []
 end
 
+# Set volume default quota
+default["openstack"]["block-storage"]["quota_volumes"] = 500
+default["openstack"]["block-storage"]["quota_snapshots"] = 500
+default["openstack"]["block-storage"]["quota_gigabytes"] = 250000
+
 # See the case in attributes/ipc_ng.rb
 default["openstack"]["block-storage"]["enabled_backends"] = {}
 default["openstack"]["block-storage"]["nexenta"]["nfs_shares"] = []
