@@ -191,6 +191,9 @@ control_exchange=<%=node["openstack"]["block-storage"]["rabbit"]["control_exchan
 quota_volumes=<%= node["openstack"]["block-storage"]["quota_volumes"] %>
 #### (IntOpt) number of volumes allowed per project
 
+quota_snapshots=<%= node["openstack"]["block-storage"]["quota_snapshots"] %>
+#### (IntOpt) number of volume snapshots allowed per project
+
 quota_gigabytes=<%= node["openstack"]["block-storage"]["quota_gigabytes"] %>
 #### (IntOpt) number of volume gigabytes allowed per project
 
