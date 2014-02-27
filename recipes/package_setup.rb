@@ -1,24 +1,24 @@
-include_recipe "sudo"
-include_recipe "ktc-package"
+include_recipe 'sudo'
+include_recipe 'ktc-package'
 
-group node["openstack"]["block-storage"]["group"] do
+group node['openstack']['block-storage']['group'] do
   system true
 end
 
-user node["openstack"]["block-storage"]["user"] do
-  home "/var/lib/cinder"
-  gid node["openstack"]["block-storage"]["group"]
-  shell "/bin/sh"
+user node['openstack']['block-storage']['user'] do
+  home '/var/lib/cinder'
+  gid node['openstack']['block-storage']['group']
+  shell '/bin/sh'
   system true
-  supports :manage_home => true
+  supports manage_home: true
 end
 
-sudo "cinder_sudoers" do
-  user     "cinder"
-  host     "ALL"
-  runas    "root"
+sudo 'cinder_sudoers' do
+  user     'cinder'
+  host     'ALL'
+  runas    'root'
   nopasswd true
-  commands ["/usr/bin/cinder-rootwrap"]
+  commands ['/usr/bin/cinder-rootwrap']
 end
 
 %w|
@@ -29,8 +29,8 @@ end
   /var/run/cinder
 |.each do |d|
   directory "#{d}" do
-    owner node["openstack"]["block-storage"]["user"]
-    group node["openstack"]["block-storage"]["group"]
+    owner node['openstack']['block-storage']['user']
+    group node['openstack']['block-storage']['group']
     mode 00755
     action :create
   end
@@ -53,6 +53,6 @@ end
   end
 end
 
-link "/usr/bin/cinder" do
-  to "/opt/openstack/cinderclient/bin/cinder"
+link '/usr/bin/cinder' do
+  to '/opt/openstack/cinderclient/bin/cinder'
 end
