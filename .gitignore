@@ -20,4 +20,3 @@ cookbooks
 vendor/
 
 Berksfile.lock
-Gemfile.lock
