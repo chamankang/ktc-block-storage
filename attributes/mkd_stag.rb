@@ -2,8 +2,6 @@ return unless chef_environment == 'mkd_stag'
 
 include_attribute 'ktc-block-storage::default'
 
-default['cinder_version'] = '2013.2.1.dev47.g430f0b9'
-
 default['openstack']['block-storage']['enabled_backends'] = {
   'nex-nfs1' => {
     'volume_driver' => 'cinder.volume.drivers.nexenta.nfs.NexentaNfsDriver'
@@ -14,11 +12,25 @@ default['openstack']['block-storage']['nexenta']['nfs_shares'] = [
   {
     'server_ip' => 'snode01-disk',
     'mount_point' => '/volumes/mkd-stag-snode1-zpool1/cinder1',
-    'management_url' => 'http://admin:nexenta@snode01:2000/'
+    'management_url' => 'http://admin:nexenta@snode01:2000/',
+    'zone_name' => 'mokdong.prod.ktis'
+  },
+  {
+    'server_ip' => 'snode01-disk',
+    'mount_point' => '/volumes/mkd-stag-snode1-zpool1/cinder2',
+    'management_url' => 'http://admin:nexenta@snode01:2000/',
+    'zone_name' => 'mokdong.prod.dmz'
   },
   {
     'server_ip' => 'snode02-disk',
     'mount_point' => '/volumes/mkd-stag-snode2-zpool1/cinder1',
-    'management_url' => 'http://admin:nexenta@snode02:2000/'
+    'management_url' => 'http://admin:nexenta@snode02:2000/',
+    'zone_name' => 'mokdong.dev.ktis'
+  },
+  {
+    'server_ip' => 'snode02-disk',
+    'mount_point' => '/volumes/mkd-stag-snode2-zpool1/cinder2',
+    'management_url' => 'http://admin:nexenta@snode02:2000/',
+    'zone_name' => 'mokdong.dev.dmz'
   }
 ]
